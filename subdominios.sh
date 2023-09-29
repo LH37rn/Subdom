@@ -34,40 +34,55 @@ ${RED}[${WHITE}✓${RED}]${GREEN} SELECIONA UNA OPCIÓN  ${WHITE}>> \n" $reset
 read opcion
 sleep 3
 
-if [ -z $opcion ]; then
-clear
-cd $HOME 
-bash bucle2.sh
-fi
 case $opcion in
 1)
 echo " "
  read -p  "${RED}[${WHITE}✓${RED}]${GREEN} INTRODUCE TU HOST ${WHITE} >> " host
  echo "${ORANGE}===================================================="
- printf "${RED}[${WHITE}✓${RED}]${BLUE} ESCANEO DE TU HOST, ESPERA "
+ printf "${RED}[${WHITE}✓${RED}]${BLUE} ESCANEO DE TU HOST ${RED}==> ${WHITE}ESPERA "
 nmap -script dns-brute -v -sn $host  > scan.txt
 sleep 2 
 clear
 printf "     ${ORANGE}=======${RED}[${BLUE}   RESULTADO ESCANEO, BYE    ${RED}]${ORANGE}=======${WHITE} \n"
 echo
 tail -n 15 scan.txt
-rm -rf scan.txt
+sleep 3
+echo " "
+printf "${RED}[${WHITE}!${RED}] ${GREEN} SCANER'S GUARDADO EN EL ARCHIVO ${RED}==> ${BLUE} scan.txt"
+sleep 5
 ;;
 2)
 printf " ${ORANGE}=====$GREEN INSTALANDO && ACTUALIZANDO ${ORANGE}===== \n"
 apt update && apt upgrade -y
 pkg install nmap -y
 sleep 2
-cd $HOME/Subdom
-bash subdominios.sh ;;
+ ;;
 3)
 printf "${GREEN}[ ${WHITE} YUOTUBE ${RED} CHANNEL ${GREEN} ]
 ${ORANGE} >> ${BLUE} MAXPRO ${WHITE}DEVELORP ${RED}ERROR 404 ${ORANGE} <<
 ${WHITE} https://youtube.com/@maxprodeloverp4042?si=8GpOtrl4v1cxGkYk \n"
 sleep 5
-cd $HOME/subdom
-bash subdominios.sh
 ;;
 esac
 }
 main_menu
+
+#check_comand
+check_off() {
+	if [ -z $opcion ] || [ $opcion = "[@]" ]; then
+	Defaul_on
+	main_menu
+	check_off
+	fi
+}
+check_off
+
+#all_comand
+check_on() {
+	clear
+	Defaul_on
+	main_menu
+	check_off
+	check_on 
+}
+check_on
